@@ -31,11 +31,19 @@ Bundle 'Lokaltog/vim-powerline'
 
 " IN TESTING
 if has("win32") || has("win16")
-Bundle 'Shougo/neocomplcache'
+
+"No YCM on windows yet...too complicated to build :(
+"DEPRECATED, trying the new version on both
+"Bundle 'Shougo/neocomplcache'
+
 else
-Bundle 'Valloric/YouCompleteMe'
-Bundle 'rdnetto/YCM-Generator'
+
+" YCM - still in testing, does not work very good with vxworks
+"Bundle 'Valloric/YouCompleteMe'
+"Bundle 'rdnetto/YCM-Generator'
 endif
+
+Bundle 'Shougo/neocomplete.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'jeffkreeftmeijer/vim-numbertoggle'
 Bundle 'wikitopian/hardmode'
@@ -77,14 +85,6 @@ else
 " Set unified temp and backup directory - NOT PORTABLE
 set backupdir=~/workspace/000_BACKUP//	" backup (~) stuff
 set directory=~/workspace/000_BACKUP//	" swap files
-
-"+++++YCM - LINUX ONLY YET
-let g:ycm_collect_identifiers_from_tags_files = 1 
-
-nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
-nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
-nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
-nnoremap <leader>gi :YcmCompleter GoToInclude<CR>
 
 endif
 "----------------
@@ -220,6 +220,39 @@ map <F12> :TagbarToggle<CR>
 "----------------
 "---PLUGIN CONFIG
 "----------------
+"+++ Neocomplete
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? "\<C-y>" : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+" Close popup by <Space>.
+"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+"let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
 "+++ Omnicomplete - NOTE - OmniCPP needed for good autocomplete
 "autocmd FileType c set omnifunc=omni#cpp#complete#Main
 "autocmd FileType python set omnifunc=RopeOmni
