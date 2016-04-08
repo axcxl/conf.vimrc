@@ -44,12 +44,13 @@ else
 endif
 
 Bundle 'Shougo/neocomplete.vim'
-Bundle 'kien/ctrlp.vim'
 Bundle 'jeffkreeftmeijer/vim-numbertoggle'
 Bundle 'wikitopian/hardmode'
 Bundle 'milkypostman/vim-togglelist'
+Bundle 'ctrlpvim/ctrlp.vim'
 " NOTE: call HardMode() to enable, EasyMode() to disable
 
+" Bundle 'kien/ctrlp.vim' - NOT MAINTAINED, see new link
 " Bundle 'Valloric/ListToggle' - does not appear to work
 " Bundle 'scrooloose/syntastic' - NO GOOD C LINT ON WINDOWS??
 " Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'} - DOES NOT SEEM TO WORK ON WIN
@@ -78,7 +79,7 @@ set backupdir=c:/Work/000_BACKUP/	" backup (~) stuff
 set directory=c:/Work/000_BACKUP//	" swap files
 
 "+++ CTRLP
-let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'  " Windows
+"let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'  " Windows
 
 else
 
@@ -230,52 +231,21 @@ let g:neocomplete#sources#syntax#min_keyword_length = 3
 let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
 " Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? "\<C-y>" : "\<CR>"
-endfunction
-" <TAB>: completion.
+" <TAB>: completion. NOTE: CTRL+TAB = TAB without completion
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+" <BS>: close popup and delete backword char.
 inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 " Close popup by <Space>.
-"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
 
 " Enable heavy omni completion.
 if !exists('g:neocomplete#sources#omni#input_patterns')
   let g:neocomplete#sources#omni#input_patterns = {}
 endif
-"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-"let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-
-"+++ Omnicomplete - NOTE - OmniCPP needed for good autocomplete
-"autocmd FileType c set omnifunc=omni#cpp#complete#Main
-"autocmd FileType python set omnifunc=RopeOmni
-
-"let OmniCpp_NamespaceSearch = 2
-"let OmniCpp_GlobalScopeSearch = 1
-"let OmniCpp_DisplayMode = 1
-"let OmniCpp_ShowAccess = 1
-"let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
-"let OmniCpp_MayCompleteDot = 1 " autocomplete after .
-"let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
-"let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
-" automatically open and close the popup menu / preview window
-"au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
-"set complete=.,b,i,d,]
-"set completeopt=menuone,menu,longest,preview
-"set tags+=./tags
-
 
 "+++ Supertab
 let g:SuperTabDefaultCompletionType = "context"
-
-
 
 "Shift-PGUP/PGDOWN - move through quick list witout openning the list
 map <S-PageUp> :cp<CR>
@@ -305,48 +275,11 @@ let g:alternateSearchPath = 'sfr:../source,sfr:../src,sfr:../include,sfr:../inc,
 "+++ VIM-POWERLINE
 set encoding=utf-8
 set laststatus=2
-"set guifont=Liberation\ MonoD:h10:cANSI
 let g:Powerline_symbols = "fancy"
 
+"+++ CTRLP
+let g:ctrlp_working_path_mode = 'wra'
 
-"+++ PY-MODE
-" Activate rope
-" Keys:
-" K             Show python docs
-" <Ctrl-Space>  Rope autocomplete
-" <Ctrl-c>g     Rope goto definition
-" <Ctrl-c>d     Rope show documentation
-" <Ctrl-c>f     Rope find occurrences
-" <Leader>b     Set, unset breakpoint (g:pymode_breakpoint enabled)
-" [[            Jump on previous class or function (normal, visual, operator modes)
-" ]]            Jump on next class or function (normal, visual, operator modes)
-" [M            Jump on previous class or method (normal, visual, operator modes)
-" ]M            Jump on next class or method (normal, visual, operator modes)
-"let g:pymode_rope = 0
-
-" Documentation
-"let g:pymode_doc = 1
-"let g:pymode_doc_key = 'K'
-
-"" syntax highlighting
-"let g:pymode_syntax = 1
-"let g:pymode_syntax_all = 1
-"let g:pymode_syntax_indent_errors = g:pymode_syntax_all
-"let g:pymode_syntax_space_errors = g:pymode_syntax_all
-"
-"" Don't autofold code
-"let g:pymode_folding = 0
-"
-"" Autoremove unused whitespaces
-"let g:pymode_utils_whitespaces = 1
-"
-"" Enable pymode indentation
-"let g:pymode_indent = 1
-"
-"" Use only PEP8 for checks
-"let g:pymode_lint = 0
-"let g:pymode_lint_onfly = 0
-"let g:pymode_lint_write = 0
 
 "-----------------------
 " FUNCTIONS
