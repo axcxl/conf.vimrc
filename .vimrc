@@ -81,11 +81,20 @@ set directory=c:/Work/000_BACKUP//	" swap files
 "+++ CTRLP
 "let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'  " Windows
 
+" Copy filename/full path to clipboard + substit backslashes
+nmap ,cn :let @*=substitute(expand("%:t"), "/", "\\", "g")<CR>
+nmap ,cp :let @*=substitute(expand("%:p"), "/", "\\", "g")<CR>
+
+
 else
 
 " Set unified temp and backup directory - NOT PORTABLE
 set backupdir=~/workspace/000_BACKUP//	" backup (~) stuff
 set directory=~/workspace/000_BACKUP//	" swap files
+
+" Copy filename/fullpath to clipboard
+nmap ,cn :let @+=expand("%:t")<CR>
+nmap ,cp :let @+=expand("%:p")<CR>
 
 endif
 "----------------
@@ -162,7 +171,7 @@ set whichwrap+=<,>,h,l
 " Bash-like filename completion
 set wildmenu
 set wildmode=longest:list,full
-set wildignore=*.o,*.fasl
+set wildignore=*.d,*.o,*.fasl
 
 " Multiple paste after copy
 xnoremap p pgvy
@@ -280,8 +289,19 @@ set laststatus=2
 let g:Powerline_symbols = "fancy"
 
 "+++ CTRLP
-let g:ctrlp_working_path_mode = 'wra'
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
 
+let g:ctrlp_working_path_mode = 'ra'
+
+let g:ctrlp_by_filename = 1     "default to filename search, use <c-d> to toggle
+let g:ctrlp_max_files = 0       "no limit
+let g:ctrlp_max_depth = 100     "max recurse into length
+
+let g:ctrlp_custom_ignore = {
+    \ 'dir': '\v[\/]\.(git|hg|svn)$',
+    \ 'file': '\v\.(d|o|as)$',
+    \ }
 
 "-----------------------
 " FUNCTIONS
