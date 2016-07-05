@@ -1,16 +1,22 @@
+"FIRST RUN THIS
+"git clone https://github.com/VundleVim/Vundle.vim.g^C ~/.vim/bundle/Vundle.vim
+"then create the ~/workspace/000_BACKUP folder
+"then run vim and run ":PluginInstall"
+"and you should be done :)
+
 set nocompatible               " be iMproved
 filetype off                   " required!
 
 if has("win32") || has("win16")
 set rtp+=c:/Work/vim_conf/vundle
 else
-set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.vim/bundle/Vundle.vim
 endif
-call vundle#rc()
+call vundle#begin()
 
 " let Vundle manage Vundle
 " required! 
-Bundle 'gmarik/vundle'
+Plugin 'VundleVim/Vundle.vim'
 
 " My Bundles here:
 Bundle 'scrooloose/nerdtree'
@@ -58,6 +64,7 @@ Bundle 'ctrlpvim/ctrlp.vim'
 " Bundle 'taglist.vim'  - OLD One
 " Bundle 'fholgado/minibufexpl.vim' - OLD one
 
+call vundle#end()
 filetype plugin indent on     " required!
 "
 " Brief help
