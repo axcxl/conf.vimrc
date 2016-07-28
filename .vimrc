@@ -34,6 +34,7 @@ Bundle 'Lokaltog/vim-powerline'
 
 " Python-only stuff
 "Bundle 'klen/python-mode'
+Bundle 'davidhalter/jedi-vim'
 
 " IN TESTING
 if has("win32") || has("win16")
@@ -233,6 +234,12 @@ map <F11> :NERDTreeToggle<CR>
 
 "F12 = Toggle TAGBAR
 map <F12> :TagbarToggle<CR>
+
+"Remap keys for faster navigation between windows :)
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
 "----------------
 "---PLUGIN CONFIG
