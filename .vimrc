@@ -1,5 +1,5 @@
 "FIRST RUN THIS
-"git clone https://github.com/VundleVim/Vundle.vim.g^C ~/.vim/bundle/Vundle.vim
+"git clone https://github.com/VundleVim/Vundle.vim ~/.vim/bundle/Vundle.vim
 "then create the ~/workspace/000_BACKUP folder
 "then run vim and run ":PluginInstall"
 "and you should be done :)
