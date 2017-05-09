@@ -32,22 +32,11 @@ Bundle 'vim-scripts/cscope_macros.vim'
 Bundle 'ervandew/supertab'
 Bundle 'Lokaltog/vim-powerline'
 
-" Python-only stuff
-"Bundle 'klen/python-mode'
-Bundle 'davidhalter/jedi-vim'
-
 " IN TESTING
 if has("win32") || has("win16")
 
-"No YCM on windows yet...too complicated to build :(
-"DEPRECATED, trying the new version on both
-"Bundle 'Shougo/neocomplcache'
-
 else
 
-" YCM - still in testing, does not work very good with vxworks
-"Bundle 'Valloric/YouCompleteMe'
-"Bundle 'rdnetto/YCM-Generator'
 endif
 
 Bundle 'Shougo/neocomplete.vim'
@@ -55,6 +44,7 @@ Bundle 'jeffkreeftmeijer/vim-numbertoggle'
 Bundle 'wikitopian/hardmode'
 Bundle 'milkypostman/vim-togglelist'
 Bundle 'ctrlpvim/ctrlp.vim'
+Bundle 'ludovicchabant/vim-gutentags'
 " NOTE: call HardMode() to enable, EasyMode() to disable
 
 " Bundle 'kien/ctrlp.vim' - NOT MAINTAINED, see new link
@@ -204,7 +194,6 @@ map! <F2> <ESC>:w<CR>
 "F3 = DIFF FILE (NEW, WIP)
 "Shift-F3 - close all diffs
 map <S-F3>c :diffoff!<CR><C-w>c
-map <S-F3>s :DiffSVN<CR>
 
 "F4 OPEN! 
 "OLD USAGE: autocmd FileType c map <buffer> <F4> <C-\>g
@@ -240,6 +229,12 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+
+" Fast QUIT
+nnoremap <leader>q :qall<CR>
+
+" Fast SAVE (for diff)
+nnoremap <leader>w :wall!<CR>
 
 "----------------
 "---PLUGIN CONFIG
@@ -280,13 +275,8 @@ map <S-PageDown> :cn<CR>
 map! <S-PageDown> <ESC>:cn<CR>
 
 
-"+++ CTAGS (use with care, might take long on large C projects
-"autocmd FileType python map <F3> <ESC>:!ctags -R --python-kinds=+cfmvi --fields=+iaS --exclude=.hg --extra=+q<CR><CR><CR>
-"autocmd FileType python map! <F3> <ESC>:!ctags -R --python-kinds=+cfmvi --fields=+iaS --exclude=.hg --extra=+q<CR><CR><CR>
-
-
 "+++ VIM-SESSION
-let g:session_autoload="yes"
+let g:session_autoload="no"
 let g:session_autosave="yes"
 let g:session_autosave_periodic=10
 let g:session_default_overwrite="no"
@@ -314,28 +304,6 @@ let g:ctrlp_max_depth = 100     "max recurse into length
 
 let g:ctrlp_custom_ignore = {
     \ 'dir': '\v[\/]\.(git|hg|svn)$',
-    \ 'file': '\v\.(d|o|as)$',
+    \ 'file': '\v\.(d|o|as|lo)$',
     \ }
 
-"-----------------------
-" FUNCTIONS
-"-----------------------
-"SOURCE: http://vim.wikia.com/wiki/Diff_current_buffer_and_the_original_file
-function! s:DiffWithSaved()
-  let filetype=&ft
-  diffthis
-  vnew | r # | normal! 1Gdd
-  diffthis
-  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
-endfunction
-com! DiffSaved call s:DiffWithSaved()
-
-"SOURCE: http://vim.wikia.com/wiki/Diff_current_buffer_and_the_original_file
-function! s:DiffWithSVNCheckedOut()
-  let filetype=&ft
-  diffthis
-  vnew | exe "%!svn cat -r base " . expand("#:p")
-  diffthis
-  exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
-endfunction
-com! DiffSVN call s:DiffWithSVNCheckedOut()
