@@ -45,6 +45,7 @@ Bundle 'wikitopian/hardmode'
 Bundle 'milkypostman/vim-togglelist'
 Bundle 'ctrlpvim/ctrlp.vim'
 Bundle 'ludovicchabant/vim-gutentags'
+Bundle 'will133/vim-dirdiff'
 " NOTE: call HardMode() to enable, EasyMode() to disable
 
 " Bundle 'kien/ctrlp.vim' - NOT MAINTAINED, see new link
