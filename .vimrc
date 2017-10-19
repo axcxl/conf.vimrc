@@ -37,22 +37,24 @@ if has("win32") || has("win16")
 
 else
 
+
 endif
 
 Bundle 'Shougo/neocomplete.vim'
 Bundle 'jeffkreeftmeijer/vim-numbertoggle'
-Bundle 'wikitopian/hardmode'
+Bundle 'wikitopian/hardmode' 
+" NOTE: call HardMode() to enable, EasyMode() to disable
 Bundle 'milkypostman/vim-togglelist'
 Bundle 'ctrlpvim/ctrlp.vim'
 Bundle 'ludovicchabant/vim-gutentags'
 Bundle 'will133/vim-dirdiff'
-" NOTE: call HardMode() to enable, EasyMode() to disable
+Bundle 'hari-rangarajan/CCTree'
+
 
 " Bundle 'kien/ctrlp.vim' - NOT MAINTAINED, see new link
 " Bundle 'Valloric/ListToggle' - does not appear to work
 " Bundle 'scrooloose/syntastic' - NO GOOD C LINT ON WINDOWS??
 " Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'} - DOES NOT SEEM TO WORK ON WIN
-" Bundle 'vim-scripts/CCTree' - NOT WORKING ON WIN!
 " Bundle 'taglist.vim'  - OLD One
 " Bundle 'fholgado/minibufexpl.vim' - OLD one
 
