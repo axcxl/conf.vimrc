@@ -45,6 +45,10 @@ Bundle 'wikitopian/hardmode'
 Bundle 'milkypostman/vim-togglelist'
 Bundle 'ctrlpvim/ctrlp.vim'
 Bundle 'ludovicchabant/vim-gutentags'
+
+"""" PYTHON STUFF """"
+Bundle 'davidhalter/jedi-vim'
+Bundle 'vim-syntastic/syntastic'
 " NOTE: call HardMode() to enable, EasyMode() to disable
 
 " Bundle 'kien/ctrlp.vim' - NOT MAINTAINED, see new link
@@ -307,3 +311,17 @@ let g:ctrlp_custom_ignore = {
     \ 'file': '\v\.(d|o|as|lo)$',
     \ }
 
+
+"+++ Syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
+
+let g:syntastic_python_python_exec = 'python3'
+let g:syntastic_python_pylint_exec = 'pylint3'
+let g:syntastic_python_checkers = ['pylint3','pylint']
