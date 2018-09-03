@@ -30,8 +30,10 @@ Bundle 'xolox/vim-session'
 Bundle 'vim-scripts/bufexplorer.zip'
 Bundle 'vim-scripts/cscope_macros.vim'
 Bundle 'ervandew/supertab'
-Bundle 'Lokaltog/vim-powerline'
-
+Bundle 'vim-airline/vim-airline'
+Bundle 'vim-airline/vim-airline-themes'
+Bundle 'tpope/vim-fugitive'
+Bundle 'ktchen14/cscope-auto'
 " IN TESTING
 if has("win32") || has("win16")
 
@@ -52,12 +54,13 @@ Bundle 'hari-rangarajan/CCTree'
 
 """" PYTHON STUFF """"
 Bundle 'davidhalter/jedi-vim'
-Bundle 'vim-syntastic/syntastic'
+"Bundle 'vim-syntastic/syntastic'
 
 " Bundle 'kien/ctrlp.vim' - NOT MAINTAINED, see new link
 " Bundle 'Valloric/ListToggle' - does not appear to work
 " Bundle 'scrooloose/syntastic' - NO GOOD C LINT ON WINDOWS??
 " Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'} - DOES NOT SEEM TO WORK ON WIN
+" Bundle 'Lokaltog/vim-powerline' - not MAINTAINED anymore
 " Bundle 'taglist.vim'  - OLD One
 " Bundle 'fholgado/minibufexpl.vim' - OLD one
 
@@ -101,6 +104,10 @@ nmap ,cn :let @+=expand("%:t")<CR>
 nmap ,cp :let @+=expand("%:p")<CR>
 
 endif
+
+ " Trace32 
+au BufRead,BufNewFile *.cmm set filetype=trace32
+autocmd FileType trace32 setlocal ts=2 sts=2 sw=2 expandtab
 "----------------
 "---MY CONFIG
 "----------------
@@ -189,6 +196,8 @@ set cscopequickfix=s-,c-,d-,i-,t-,e-
 
 " Copy-paste from system clipboard
 map <C-S-c> "+y
+
+set ttimeoutlen=1
 
 "----------------
 "---KEY MAPPINGS 
@@ -294,19 +303,45 @@ let g:alternateSearchPath = 'sfr:../source,sfr:../src,sfr:../include,sfr:../inc,
 
 
 "+++ VIM-POWERLINE
-set encoding=utf-8
-set laststatus=2
-let g:Powerline_symbols = "fancy"
+let g:airline_powerline_fonts = 1
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+
+let g:airline_skip_empty_sections = 1
+let g:airline#extensions#whitespace#show_message = 0
+
+" remove the encoding part
+let g:airline_section_y=''
+
+" unicode symbols
+ let g:airline_left_sep = '»'
+ let g:airline_left_sep = '▶'
+ let g:airline_right_sep = '«'
+ let g:airline_right_sep = '◀'
+ let g:airline_symbols.linenr = '␊'
+ let g:airline_symbols.linenr = '␤'
+ let g:airline_symbols.linenr = '¶'
+ let g:airline_symbols.branch = '⎇'
+ let g:airline_symbols.paste = 'ρ'
+ let g:airline_symbols.paste = 'Þ'
+ let g:airline_symbols.paste = '∥'
+ let g:airline_symbols.whitespace = 'Ξ'
 
 "+++ CTRLP
 let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_cmd = 'CtrlP :pwd'
 
-let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_working_path_mode = '0'
 
 let g:ctrlp_by_filename = 1     "default to filename search, use <c-d> to toggle
 let g:ctrlp_max_files = 0       "no limit
 let g:ctrlp_max_depth = 100     "max recurse into length
+let g:ctrlp_lazy_update = 1200   "only update window 1200ms after typing stopped
+let g:ctrlp_regexp = 1          "regex on
+
+let g:ctrlp_use_caching = 1
+let g:ctrlp_cache_dir = $HOME.'/workspace/000_ctrlpcache'
 
 let g:ctrlp_custom_ignore = {
     \ 'dir': '\v[\/]\.(git|hg|svn)$',
