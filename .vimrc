@@ -19,50 +19,35 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 " My Bundles here:
-Bundle 'scrooloose/nerdtree'
-Bundle 'majutsushi/tagbar'
-Bundle 'jwhitley/vim-matchit'
-Bundle 'bufkill.vim'
-Bundle 'a.vim'
-Bundle 'mbbill/undotree'
-Bundle 'xolox/vim-misc'
-Bundle 'xolox/vim-session'
-Bundle 'vim-scripts/bufexplorer.zip'
-Bundle 'vim-scripts/cscope_macros.vim'
-Bundle 'ervandew/supertab'
-Bundle 'vim-airline/vim-airline'
-Bundle 'vim-airline/vim-airline-themes'
-Bundle 'tpope/vim-fugitive'
-Bundle 'ktchen14/cscope-auto'
-" IN TESTING
+" NEEDED
+Bundle 'majutsushi/tagbar'   
+Bundle 'xolox/vim-misc'      
+Bundle 'xolox/vim-session'   
+Bundle 'vim-airline/vim-airline'        
+Bundle 'vim-airline/vim-airline-themes' 
+Bundle 'tpope/vim-fugitive'             
+Bundle 'jeffkreeftmeijer/vim-numbertoggle' 
+"NOTE: call HardMode() to enable, EasyMode() to disable
+Bundle 'wikitopian/hardmode'            
+Bundle 'hari-rangarajan/CCTree'         
+" Optional
+Bundle 'scrooloose/nerdtree' 
+Bundle 'a.vim'               
+Bundle 'jlanzarotta/bufexplorer'        
+Bundle 'vim-scripts/cscope_macros.vim'  
+Bundle 'milkypostman/vim-togglelist'
+"Might be re-enabled later
+"Bundle 'ervandew/supertab'
+"Bundle 'ctrlpvim/ctrlp.vim'
+"Bundle 'will133/vim-dirdiff'
+
 if has("win32") || has("win16")
+"WINDOWS only plugins
 
 else
-
+"Linux only plugins
 
 endif
-
-Bundle 'Shougo/neocomplete.vim'
-Bundle 'jeffkreeftmeijer/vim-numbertoggle'
-Bundle 'wikitopian/hardmode' 
-" NOTE: call HardMode() to enable, EasyMode() to disable
-Bundle 'milkypostman/vim-togglelist'
-Bundle 'ctrlpvim/ctrlp.vim'
-"Bundle 'ludovicchabant/vim-gutentags'
-Bundle 'will133/vim-dirdiff'
-Bundle 'hari-rangarajan/CCTree'
-
-"""" PYTHON STUFF """"
-Bundle 'davidhalter/jedi-vim'
-"Bundle 'vim-syntastic/syntastic'
-
-" Bundle 'kien/ctrlp.vim' - NOT MAINTAINED, see new link
-" Bundle 'Valloric/ListToggle' - does not appear to work
-" Bundle 'scrooloose/syntastic' - NO GOOD C LINT ON WINDOWS??
-" Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'} - DOES NOT SEEM TO WORK ON WIN
-" Bundle 'Lokaltog/vim-powerline' - not MAINTAINED anymore
-" Bundle 'taglist.vim'  - OLD One
-" Bundle 'fholgado/minibufexpl.vim' - OLD one
 
 call vundle#end()
 filetype plugin indent on     " required!
@@ -85,9 +70,6 @@ if has("win32") || has("win16")
 set backupdir=c:/Work/000_BACKUP/	" backup (~) stuff
 set directory=c:/Work/000_BACKUP//	" swap files
 
-"+++ CTRLP
-"let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'  " Windows
-
 " Copy filename/full path to clipboard + substit backslashes
 nmap ,cn :let @*=substitute(expand("%:t"), "/", "\\", "g")<CR>
 nmap ,cp :let @*=substitute(expand("%:p"), "/", "\\", "g")<CR>
@@ -105,13 +87,14 @@ nmap ,cp :let @+=expand("%:p")<CR>
 
 endif
 
- " Trace32 
-au BufRead,BufNewFile *.cmm set filetype=trace32
-autocmd FileType trace32 setlocal ts=2 sts=2 sw=2 expandtab
 "----------------
 "---MY CONFIG
 "----------------
 "NOTE: FONT SETTING REMOVED FOR BETTER RESULTS
+"
+""Search down into subfolders
+set path+=**
+
 " Enable window title
 set title
 
@@ -181,8 +164,10 @@ set whichwrap+=<,>,h,l
 
 " Bash-like filename completion
 set wildmenu
-set wildmode=longest:list,full
-set wildignore=*.d,*.o,*.fasl
+set wildmode=longest:full,full
+set wildignore+=*.d,*.o,*.txt,*.pod
+set wildignore+=*/target/*
+set wildignore+=*/.git/*
 
 " Multiple paste after copy
 xnoremap p pgvy
@@ -197,7 +182,9 @@ set cscopequickfix=s-,c-,d-,i-,t-,e-
 " Copy-paste from system clipboard
 map <C-S-c> "+y
 
-set ttimeoutlen=1
+" Trace32 - syntax Highlight
+au BufRead,BufNewFile *.cmm set filetype=trace32
+autocmd FileType trace32 setlocal ts=2 sts=2 sw=2 expandtab
 
 "----------------
 "---KEY MAPPINGS 
@@ -251,58 +238,26 @@ nnoremap <leader>q :qall<CR>
 " Fast SAVE (for diff)
 nnoremap <leader>w :wall!<CR>
 
-"----------------
-"---PLUGIN CONFIG
-"----------------
-"+++ Neocomplete
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-
-" Recommended key-mappings.
-" <TAB>: completion. NOTE: CTRL+TAB = TAB without completion
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <BS>: close popup and delete backword char.
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-" Close popup by <Space>.
-inoremap <expr><Space> pumvisible() ? "\<C-y> " : "\<Space>"
-" Close popup by <Enter>.
-inoremap <expr><CR> pumvisible() ? "\<C-y>" : "\<CR>"
-
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-
-"+++ Supertab
-let g:SuperTabDefaultCompletionType = "context"
-
 "Shift-PGUP/PGDOWN - move through quick list witout openning the list
 map <S-PageUp> :cp<CR>
 map! <S-PageUp> <ESC>:cp<CR>
 
 map <S-PageDown> :cn<CR>
 map! <S-PageDown> <ESC>:cn<CR>
-
-
+"----------------
+"---PLUGIN CONFIG
+"----------------
 "+++ VIM-SESSION
 let g:session_autoload="no"
 let g:session_autosave="yes"
 let g:session_autosave_periodic=10
 let g:session_default_overwrite="no"
 
-
 "+++ A
 let g:alternateNoDefaultAlternate=1
 let g:alternateSearchPath = 'sfr:../source,sfr:../src,sfr:../include,sfr:../inc,sfr:../h'
 
-
-"+++ VIM-POWERLINE
+"+++ AIRLINE
 let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
@@ -328,41 +283,26 @@ let g:airline_section_y=''
  let g:airline_symbols.paste = '∥'
  let g:airline_symbols.whitespace = 'Ξ'
 
-"+++ CTRLP
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP :pwd'
+ " find files and populate the quickfix list
+fun! FindFiles(filename)
+    let error_file = tempname()
+    silent exe '!find . -iname "'.a:filename.'.[ch]" | xargs file | sed "s/:/:1:/" > '.error_file
+    set errorformat=%f:%l:%m
+    exe "cfile ". error_file
+    copen
+    call delete(error_file)
+endfun
+command! -nargs=1 FindFile call FindFiles(<q-args>)
 
-let g:ctrlp_working_path_mode = '0'
-
-let g:ctrlp_by_filename = 1     "default to filename search, use <c-d> to toggle
-let g:ctrlp_max_files = 0       "no limit
-let g:ctrlp_max_depth = 100     "max recurse into length
-let g:ctrlp_lazy_update = 1200   "only update window 1200ms after typing stopped
-let g:ctrlp_regexp = 1          "regex on
-
-let g:ctrlp_use_caching = 1
-let g:ctrlp_cache_dir = $HOME.'/workspace/000_ctrlpcache'
-
-let g:ctrlp_custom_ignore = {
-    \ 'dir': '\v[\/]\.(git|hg|svn)$',
-    \ 'file': '\v\.(d|o|as|lo)$',
-    \ }
-
-
-"+++ Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
-let g:syntastic_mode_map = {
-	\ "mode": "active",
-	\ "active_filetypes": ["python"],
-	\ "passive_filetypes": ["c","h"]}
-
-let g:syntastic_python_python_exec = 'python3'
-let g:syntastic_python_pylint_exec = 'pylint3'
-let g:syntastic_python_checkers = ['pylint3','pylint']
+" ack and populate the quickfix list 
+fun! AckFiles(...)
+    let error_file = tempname()
+    let strcmd=string(a:000)
+    silent exe '!ack --cc -l "'strcmd'" . | xargs file | sed "s/:/:1:/" > '.error_file
+    "silent exe '!ack --cc "'.a:filename.'" . | sed "s/:[0-9]*//g" | sed "s/\t\t/:1:/" > '.error_file
+    set errorformat=%f:%l:%m
+    exe "cfile ". error_file
+    copen
+    call delete(error_file)
+endfun
+"command! -nargs=1 AckFiles call AckFiles(<q-args>)
