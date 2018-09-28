@@ -36,6 +36,8 @@ Bundle 'a.vim'
 Bundle 'jlanzarotta/bufexplorer'        
 Bundle 'vim-scripts/cscope_macros.vim'  
 Bundle 'milkypostman/vim-togglelist'
+Bundle 'lyuts/vim-rtags'
+"Bundle 'Valloric/YouCompleteMe'
 "Might be re-enabled later
 "Bundle 'ervandew/supertab'
 "Bundle 'ctrlpvim/ctrlp.vim'
