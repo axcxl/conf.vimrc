@@ -294,6 +294,9 @@ let g:airline_section_y=''
  let g:airline_symbols.paste = '∥'
  let g:airline_symbols.whitespace = 'Ξ'
 
+" Rtags change default command (on buster it is like this)
+let g:rtagsRcCmd = "rtags-rc"
+
  " find files and populate the quickfix list
 fun! FindFiles(filename)
     let error_file = tempname()
