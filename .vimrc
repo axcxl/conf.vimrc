@@ -30,18 +30,21 @@ Bundle 'jeffkreeftmeijer/vim-numbertoggle'
 "NOTE: call HardMode() to enable, EasyMode() to disable
 Bundle 'wikitopian/hardmode'            
 Bundle 'hari-rangarajan/CCTree'         
+" NEEDED - for python
+Bundle 'davidhalter/jedi-vim'
 " Optional
+Bundle 'ajh17/VimCompletesMe'
 Bundle 'scrooloose/nerdtree' 
 Bundle 'a.vim'               
 Bundle 'jlanzarotta/bufexplorer'        
 Bundle 'vim-scripts/cscope_macros.vim'  
 Bundle 'milkypostman/vim-togglelist'
 Bundle 'lyuts/vim-rtags'
-"Bundle 'Valloric/YouCompleteMe'
+Bundle 'ctrlpvim/ctrlp.vim'
 "Might be re-enabled later
-"Bundle 'ervandew/supertab'
-"Bundle 'ctrlpvim/ctrlp.vim'
+Bundle 'ervandew/supertab'
 "Bundle 'will133/vim-dirdiff'
+"Bundle 'Valloric/YouCompleteMe'
 
 if has("win32") || has("win16")
 "WINDOWS only plugins
