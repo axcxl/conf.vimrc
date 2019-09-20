@@ -203,7 +203,8 @@ map! <F2> <ESC>:w<CR>
 
 "F3 = DIFF FILE (NEW, WIP)
 "Shift-F3 - close all diffs
-map <S-F3>c :diffoff!<CR><C-w>c
+map <F3> :diffthis<CR>
+map <S-F3> :diffoff!<CR>
 
 "F4 OPEN! 
 "OLD USAGE: autocmd FileType c map <buffer> <F4> <C-\>g
