@@ -297,26 +297,24 @@ let g:airline_section_y=''
 " Rtags change default command (on buster it is like this)
 let g:rtagsRcCmd = "rtags-rc"
 
- " find files and populate the quickfix list
-fun! FindFiles(filename)
-    let error_file = tempname()
-    silent exe '!find . -iname "'.a:filename.'.[ch]" | xargs file | sed "s/:/:1:/" > '.error_file
-    set errorformat=%f:%l:%m
-    exe "cfile ". error_file
-    copen
-    call delete(error_file)
-endfun
-command! -nargs=1 FindFile call FindFiles(<q-args>)
+" The Silver Searcher
+if executable('ag')
+    " Use ag over grep
+    set grepprg=ag\ --nogroup\ --nocolor
 
-" ack and populate the quickfix list 
-fun! AckFiles(...)
-    let error_file = tempname()
-    let strcmd=string(a:000)
-    silent exe '!ack --cc -l "'strcmd'" . | xargs file | sed "s/:/:1:/" > '.error_file
-    "silent exe '!ack --cc "'.a:filename.'" . | sed "s/:[0-9]*//g" | sed "s/\t\t/:1:/" > '.error_file
-    set errorformat=%f:%l:%m
-    exe "cfile ". error_file
-    copen
-    call delete(error_file)
-endfun
-"command! -nargs=1 AckFiles call AckFiles(<q-args>)
+    " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+   " ag is fast enough that CtrlP doesn't need to cache
+   let g:ctrlp_use_caching = 0
+endif
+
+" bind Ctrl-l = CtrlP in local folder
+nnoremap <C-l> :CtrlP .<CR>
+
+" bind K to grep word under cursor
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+
+" bind \ (backward slash) to grep shortcut
+command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+nnoremap \ :Ag<SPACE>
