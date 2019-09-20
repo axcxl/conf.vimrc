@@ -256,10 +256,12 @@ map! <S-PageDown> <ESC>:cn<CR>
 "---PLUGIN CONFIG
 "----------------
 "+++ VIM-SESSION
-let g:session_autoload="no"
+let g:session_autoload="yes"
 let g:session_autosave="yes"
 let g:session_autosave_periodic=10
 let g:session_default_overwrite="no"
+" Persist all options related to :make.
+let g:session_persist_globals = ['&makeprg', '&makeef']
 
 "+++ A
 let g:alternateNoDefaultAlternate=1
