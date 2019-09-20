@@ -164,6 +164,9 @@ set backup
 set backspace=indent,eol,start
 set whichwrap+=<,>,h,l
 
+" Do not look for include files on autocomplete
+set complete-=i
+
 " Bash-like filename completion
 set wildmenu
 set wildmode=longest:full,full
