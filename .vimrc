@@ -26,6 +26,7 @@ Bundle 'xolox/vim-session'
 Bundle 'vim-airline/vim-airline'        
 Bundle 'vim-airline/vim-airline-themes' 
 Bundle 'tpope/vim-fugitive'             
+Bundle 'idanarye/vim-merginal'
 Bundle 'jeffkreeftmeijer/vim-numbertoggle' 
 "NOTE: call HardMode() to enable, EasyMode() to disable
 Bundle 'wikitopian/hardmode'            
@@ -336,3 +337,6 @@ function! DeleteHiddenBuffers()
     endfor
     echo "Closed ".closed." hidden buffers"
 endfunction
+
+" Merginal - split horizontal
+let g:merginal_splitType=''
