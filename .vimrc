@@ -283,17 +283,20 @@ let g:airline_section_y=''
 
 " unicode symbols
  let g:airline_left_sep = '»'
- let g:airline_left_sep = '▶'
+ let g:airline_left_sep = ''
  let g:airline_right_sep = '«'
  let g:airline_right_sep = '◀'
  let g:airline_symbols.linenr = '␊'
  let g:airline_symbols.linenr = '␤'
  let g:airline_symbols.linenr = '¶'
- let g:airline_symbols.branch = '⎇'
+ let g:airline_symbols.branch = ''
  let g:airline_symbols.paste = 'ρ'
  let g:airline_symbols.paste = 'Þ'
  let g:airline_symbols.paste = '∥'
  let g:airline_symbols.whitespace = 'Ξ'
+ " Make more room for the file name
+ let g:airline_section_a = ''
+ let g:airline#extensions#branch#displayed_head_limit = 6
 
 " Rtags change default command (on buster it is like this)
 let g:rtagsRcCmd = "rtags-rc"
