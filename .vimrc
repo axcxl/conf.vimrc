@@ -26,6 +26,8 @@ Bundle 'xolox/vim-session'
 Bundle 'vim-airline/vim-airline'        
 Bundle 'vim-airline/vim-airline-themes' 
 Bundle 'tpope/vim-fugitive'             
+" Use :Make for background jobs. :AbortDispatch kills the process started!
+Bundle 'tpope/vim-dispatch'
 Bundle 'idanarye/vim-merginal'
 Bundle 'jeffkreeftmeijer/vim-numbertoggle' 
 "NOTE: call HardMode() to enable, EasyMode() to disable
@@ -345,11 +347,11 @@ nnoremap <space>gs :Gstatus<CR>
 nnoremap <space>gd :Gvdiff<CR>
 nnoremap <space>gl :silent! Glog -n10<CR>:bot copen<CR>
 nnoremap <space>gf :silent! 0Glog -n10<CR>:bot copen<CR>
-nnoremap <space>gb :Gblame<CR>
 " This is basically a checkout (need to do a save)
 nnoremap <space>gr :Gread<CR>
 " Search git commit messages
 nnoremap <space>gg :Glog --grep=
+nnoremap <space>gb :Gblame<CR>
 
 "-----------------------------------
 "---FUNCTIONS (run with exec <name>)
