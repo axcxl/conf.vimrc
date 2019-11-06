@@ -340,6 +340,17 @@ noremap <silent> <ScrollWheelUp>   :call comfortable_motion#flick(-40)<CR>
 let g:comfortable_motion_friction = 160.0
 let g:comfortable_motion_air_drag = 8.0
 
+"+++ Fugitive
+nnoremap <space>gs :Gstatus<CR>
+nnoremap <space>gd :Gvdiff<CR>
+nnoremap <space>gl :silent! Glog -n10<CR>:bot copen<CR>
+nnoremap <space>gf :silent! 0Glog -n10<CR>:bot copen<CR>
+nnoremap <space>gb :Gblame<CR>
+" This is basically a checkout (need to do a save)
+nnoremap <space>gr :Gread<CR>
+" Search git commit messages
+nnoremap <space>gg :Glog --grep=
+
 "-----------------------------------
 "---FUNCTIONS (run with exec <name>)
 "-----------------------------------
