@@ -31,6 +31,8 @@ Bundle 'jeffkreeftmeijer/vim-numbertoggle'
 "NOTE: call HardMode() to enable, EasyMode() to disable
 Bundle 'wikitopian/hardmode'            
 Bundle 'hari-rangarajan/CCTree'         
+" Smooth scrolling - definitely needed :D
+Bundle 'yuttie/comfortable-motion.vim'
 " NEEDED - for python
 Bundle 'davidhalter/jedi-vim'
 " Optional
@@ -327,6 +329,14 @@ augroup DragQuickfixWindowDown
     autocmd!
     autocmd FileType qf wincmd J
 augroup end
+
+"+++ Comfortable-motion 
+" Use on mouse scrolling
+noremap <silent> <ScrollWheelDown> :call comfortable_motion#flick(40)<CR>
+noremap <silent> <ScrollWheelUp>   :call comfortable_motion#flick(-40)<CR>
+" Set some parameters
+let g:comfortable_motion_friction = 160.0
+let g:comfortable_motion_air_drag = 8.0
 
 function! DeleteHiddenBuffers()
     let tpbl=[]
