@@ -300,10 +300,10 @@ let g:airline_section_y=''
  let g:airline_section_a = ''
  let g:airline#extensions#branch#displayed_head_limit = 6
 
-" Rtags change default command (on buster it is like this)
+"+++ Rtags - change default command (on buster it is like this)
 let g:rtagsRcCmd = "rtags-rc"
 
-" The Silver Searcher
+"+++ The Silver Searcher
 if executable('ag')
     " Use ag over grep
     set grepprg=ag\ --nogroup\ --nocolor
@@ -315,9 +315,6 @@ if executable('ag')
    let g:ctrlp_use_caching = 0
 endif
 
-" bind Ctrl-l = CtrlP in local folder
-nnoremap <C-l> :CtrlP .<CR>
-
 " bind K to grep word under cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
@@ -325,10 +322,15 @@ nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
 nnoremap \ :Ag<SPACE>
 
-augroup DragQuickfixWindowDown
-    autocmd!
-    autocmd FileType qf wincmd J
-augroup end
+"+++ CtrlP
+" bind Ctrl-l = CtrlP in local folder
+nnoremap <C-l> :CtrlP .<CR>
+
+"+++ Merginal
+" Horizontal split of window - useful for long branch names
+let g:merginal_splitType=''
+" Map to Ctrl-b - Branches
+nnoremap <C-b> :Merginal<CR>
 
 "+++ Comfortable-motion 
 " Use on mouse scrolling
@@ -338,6 +340,12 @@ noremap <silent> <ScrollWheelUp>   :call comfortable_motion#flick(-40)<CR>
 let g:comfortable_motion_friction = 160.0
 let g:comfortable_motion_air_drag = 8.0
 
+"-----------------------------------
+"---FUNCTIONS (run with exec <name>)
+"-----------------------------------
+" Deletes all hidden buffers (including open files)
+" Needed when Fugitive opens a lot and slows everything down!
+" (example: :Glog with not -n option)
 function! DeleteHiddenBuffers()
     let tpbl=[]
     let closed = 0
@@ -351,5 +359,12 @@ function! DeleteHiddenBuffers()
     echo "Closed ".closed." hidden buffers"
 endfunction
 
-" Merginal - split horizontal
-let g:merginal_splitType=''
+"-----------------------------------
+"--- AUTO STUFF
+"-----------------------------------
+" Make quickfix windows appear under all open windows!
+augroup DragQuickfixWindowDown
+    autocmd!
+    autocmd FileType qf wincmd J
+augroup end
+
