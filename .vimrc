@@ -332,7 +332,7 @@ nnoremap <C-l> :CtrlP .<CR>
 " Horizontal split of window - useful for long branch names
 let g:merginal_splitType=''
 " Map to Ctrl-b - Branches
-nnoremap <C-b> :Merginal<CR>
+nnoremap <space>gm :Merginal<CR>
 
 "+++ Comfortable-motion 
 " Use on mouse scrolling
