@@ -80,9 +80,10 @@ if has("win32") || has("win16")
 set backupdir=c:/Work/000_BACKUP/	" backup (~) stuff
 set directory=c:/Work/000_BACKUP//	" swap files
 
-" Copy filename/full path to clipboard + substit backslashes
+" Copy filename/full path/relative path to clipboard + substit backslashes
 nmap ,cn :let @*=substitute(expand("%:t"), "/", "\\", "g")<CR>
-nmap ,cp :let @*=substitute(expand("%:p"), "/", "\\", "g")<CR>
+nmap ,cf :let @*=substitute(expand("%:p"), "/", "\\", "g")<CR>
+nmap ,cp :let @*=substitute(expand("%"), "/", "\\", "g")<CR>
 
 
 else
@@ -91,9 +92,10 @@ else
 set backupdir=~/workspace/000_BACKUP//	" backup (~) stuff
 set directory=~/workspace/000_BACKUP//	" swap files
 
-" Copy filename/fullpath to clipboard
+" Copy filename/full path/relative path to clipboard
 nmap ,cn :let @+=expand("%:t")<CR>
-nmap ,cp :let @+=expand("%:p")<CR>
+nmap ,cf :let @+=expand("%:p")<CR>
+nmap ,cp :let @+=expand("%")<CR>
 
 endif
 
