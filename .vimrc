@@ -242,11 +242,14 @@ map <F11> :NERDTreeToggle<CR>
 "F12 = Toggle TAGBAR
 map <F12> :TagbarToggle<CR>
 
-"Remap keys for faster navigation between windows :)
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
+" Remap arrow keys to move between buffers
+nnoremap <silent> <C-Right> <c-w>l
+nnoremap <silent> <C-Left> <c-w>h
+nnoremap <silent> <C-Up> <c-w>k
+nnoremap <silent> <C-Down> <c-w>j
+
+" bind Q to close current window (never used ex mode :) )
+nnoremap Q :wincmd c<CR>
 
 " Fast QUIT
 nnoremap <leader>q :qall<CR>
