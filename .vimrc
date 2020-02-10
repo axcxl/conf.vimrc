@@ -360,6 +360,8 @@ nnoremap <space>gr :Gread<CR>
 " Search git commit messages
 nnoremap <space>gg :Glog --grep=
 nnoremap <space>gb :Gblame<CR>
+" How to use: open history, go to line and issue command. NOTE: make sure only one window is opened!
+nnoremap <space>gh ^yw :cclose<CR>:Gvdiff <C-R>0<CR>
 
 "-----------------------------------
 "---FUNCTIONS (run with exec <name>)
