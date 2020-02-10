@@ -352,8 +352,9 @@ let g:comfortable_motion_air_drag = 8.0
 "+++ Fugitive
 nnoremap <space>gs :Gstatus<CR>
 nnoremap <space>gd :Gvdiff<CR>
-nnoremap <space>gl :silent! Glog -n10<CR>:bot copen<CR>
-nnoremap <space>gf :silent! 0Glog -n10<CR>:bot copen<CR>
+nnoremap <space>gl :silent! Glog -n100<CR>:bot copen<CR>
+" Note: 0Glog opens the top version file. This attempts to keep the original buffer, so you can diff and put stuff in it
+nnoremap <space>gf :vsplit<CR> :silent! 0Glog -n100<CR>:bot copen<CR> <c-w>k :wincmd c<CR>
 " This is basically a checkout (need to do a save)
 nnoremap <space>gr :Gread<CR>
 " Search git commit messages
