@@ -363,6 +363,9 @@ nnoremap <space>gb :Gblame<CR>
 " How to use: open history, go to line and issue command. NOTE: make sure only one window is opened!
 nnoremap <space>gh ^yw :cclose<CR>:Gvdiff <C-R>0<CR>
 
+" Close hidden buffers opened by fugitive
+au BufHidden fugitive://* bd %
+
 "-----------------------------------
 "---FUNCTIONS (run with exec <name>)
 "-----------------------------------
