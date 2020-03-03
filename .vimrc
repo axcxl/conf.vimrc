@@ -192,7 +192,7 @@ set undolevels=10000	" How many undos
 set hid					" Hidden buffers, to make sure we don't loose undo history
 
 " Display CSCOPE results in Quickfix window
-set cscopequickfix=s-,c-,d-,i-,t-,e-
+set cscopequickfix=s-,c-,d-,i-,t-,e-,g-
 
 " Copy-paste from system clipboard
 map <C-S-c> "+y
