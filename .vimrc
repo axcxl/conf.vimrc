@@ -116,6 +116,11 @@ set scrolloff=3
 " Enable mouse support
 set mouse=a
 
+" Add support for running in tmux
+" NOTE: using sgr since it works for a lot of colums.
+" Otherwise tagbar does not register any clicks
+set ttymouse=sgr
+
 " Show partial commmands
 set showcmd
 
@@ -141,6 +146,8 @@ set textwidth=120
 
 " Syntax
 set t_Co=256
+" Set color scheme for vim - chose this for now since I can see the visual line in vim
+colo slate
 syntax on
 filetype on
 filetype plugin on
@@ -209,9 +216,9 @@ map <F2> :w<CR>
 map! <F2> <ESC>:w<CR>
 
 "F3 = DIFF FILE (NEW, WIP)
-"Shift-F3 - close all diffs
+"F4 - close all diffs
 map <F3> :diffthis<CR>
-map <S-F3> :diffoff!<CR>
+map <F4> :diffoff!<CR>
 
 "F4 OPEN! 
 "OLD USAGE: autocmd FileType c map <buffer> <F4> <C-\>g
@@ -228,7 +235,7 @@ map! <F7> <ESC>:A<CR>
 
 "F8 = open quickfix window
 let g:toggle_list_no_mappings="true"
-map <F8> :call ToggleQuickfixList()<CR>
+map <F8> :Copen<CR>
 
 "F9 = Find current file in NERD Tree
 map <F9> :NERDTreeFind<CR>
@@ -287,6 +294,9 @@ endif
 let g:airline_skip_empty_sections = 1
 let g:airline#extensions#whitespace#show_message = 0
 
+" Set theme
+let g:airline_theme='papercolor'
+
 " remove the encoding part
 let g:airline_section_y=''
 
@@ -330,10 +340,6 @@ nnoremap \ :Ag<SPACE>
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 " bind L to grep *word* under cursor 
 nnoremap L :grep! "<C-R><C-W>"<CR>:cw<CR>
-
-"+++ CtrlP
-" bind Ctrl-l = CtrlP in local folder
-nnoremap <C-l> :CtrlP .<CR>
 
 "+++ Merginal
 " Horizontal split of window - useful for long branch names
