@@ -26,6 +26,7 @@ Bundle 'xolox/vim-session'
 Bundle 'vim-airline/vim-airline'        
 Bundle 'vim-airline/vim-airline-themes' 
 Bundle 'tpope/vim-fugitive'             
+Bundle 'iamcco/markdown-preview.nvim'
 " Use :Make for background jobs. :AbortDispatch kills the process started!
 Bundle 'tpope/vim-dispatch'
 Bundle 'idanarye/vim-merginal'
@@ -45,11 +46,16 @@ Bundle 'jlanzarotta/bufexplorer'
 Bundle 'vim-scripts/cscope_macros.vim'  
 Bundle 'milkypostman/vim-togglelist'
 Bundle 'lyuts/vim-rtags'
-Bundle 'ctrlpvim/ctrlp.vim'
+"Bundle 'ctrlpvim/ctrlp.vim'
+Bundle 'junegunn/fzf'
+Bundle 'junegunn/fzf.vim'
+Bundle 'wookayin/fzf-ripgrep.vim'
+Bundle 'jesseleite/vim-agriculture'
 "Might be re-enabled later
 Bundle 'ervandew/supertab'
 "Bundle 'will133/vim-dirdiff'
 "Bundle 'Valloric/YouCompleteMe'
+Bundle 'm42e/trace32-practice.vim'
 
 if has("win32") || has("win16")
 "WINDOWS only plugins
@@ -119,7 +125,7 @@ set mouse=a
 " Add support for running in tmux
 " NOTE: using sgr since it works for a lot of colums.
 " Otherwise tagbar does not register any clicks
-set ttymouse=sgr
+"set ttymouse=sgr
 
 " Show partial commmands
 set showcmd
@@ -147,7 +153,7 @@ set textwidth=120
 " Syntax
 set t_Co=256
 " Set color scheme for vim - chose this for now since I can see the visual line in vim
-colo slate
+colorscheme industry
 syntax on
 filetype on
 filetype plugin on
@@ -204,10 +210,6 @@ set cscopequickfix=s-,c-,d-,i-,t-,e-,g-
 " Copy-paste from system clipboard
 map <C-S-c> "+y
 
-" Trace32 - syntax Highlight
-au BufRead,BufNewFile *.cmm set filetype=trace32
-autocmd FileType trace32 setlocal ts=2 sts=2 sw=2 expandtab
-
 "----------------
 "---KEY MAPPINGS 
 "----------------
@@ -228,6 +230,7 @@ map <F4> :diffoff!<CR>
 
 "F6 OPEN! 
 " OLD USAGE: map <F6> <C-\>f
+map <F6> :Copen<CR>
 
 "F7 - switch to .h (ALL MODES)
 map <F7> :A<CR>
@@ -235,7 +238,7 @@ map! <F7> <ESC>:A<CR>
 
 "F8 = open quickfix window
 let g:toggle_list_no_mappings="true"
-map <F8> :Copen<CR>
+map <F8> :call ToggleQuickfixList()<CR>
 
 "F9 = Find current file in NERD Tree
 map <F9> :NERDTreeFind<CR>
@@ -265,11 +268,8 @@ nnoremap <leader>q :qall<CR>
 nnoremap <leader>w :wall!<CR>
 
 "Shift-PGUP/PGDOWN - move through quick list witout openning the list
-map <S-PageUp> :cp<CR>
-map! <S-PageUp> <ESC>:cp<CR>
-
-map <S-PageDown> :cn<CR>
-map! <S-PageDown> <ESC>:cn<CR>
+nnoremap <silent> <S-Up> :cp<CR>
+nnoremap <silent> <S-Down> :cn<CR>
 "----------------
 "---PLUGIN CONFIG
 "----------------
@@ -321,20 +321,8 @@ let g:airline_section_y=''
 let g:rtagsRcCmd = "rtags-rc"
 
 "+++ The Silver Searcher
-if executable('ag')
-    " Use ag over grep
-    set grepprg=ag\ --nogroup\ --nocolor
-
-    " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-   " ag is fast enough that CtrlP doesn't need to cache
-   let g:ctrlp_use_caching = 0
-endif
-
 " bind \ (backward slash) to grep shortcut
-command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
-nnoremap \ :Ag<SPACE>
+nnoremap \ :Rg<SPACE>
 
 " bind K to grep word under cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
@@ -347,16 +335,19 @@ let g:merginal_splitType=''
 " Map to Ctrl-b - Branches
 nnoremap <space>gm :Merginal<CR>
 
+"+++FZF
+nmap <C-P> :Files<CR>
+
 "+++ Comfortable-motion 
 " Use on mouse scrolling
-noremap <silent> <ScrollWheelDown> :call comfortable_motion#flick(40)<CR>
-noremap <silent> <ScrollWheelUp>   :call comfortable_motion#flick(-40)<CR>
+"noremap <silent> <ScrollWheelDown> :call comfortable_motion#flick(40)<CR>
+"noremap <silent> <ScrollWheelUp>   :call comfortable_motion#flick(-40)<CR>
 " Set some parameters
-let g:comfortable_motion_friction = 160.0
-let g:comfortable_motion_air_drag = 8.0
+"let g:comfortable_motion_friction = 160.0
+"let g:comfortable_motion_air_drag = 8.0
 
 "+++ Fugitive
-nnoremap <space>gs :Gstatus<CR>
+nnoremap <space>gs :Git<CR>
 nnoremap <space>gd :Gvdiff<CR>
 nnoremap <space>gl :silent! Glog -n100<CR>:bot copen<CR>
 " Note: 0Glog opens the top version file. This attempts to keep the original buffer, so you can diff and put stuff in it
@@ -365,7 +356,7 @@ nnoremap <space>gf :vsplit<CR> :silent! 0Glog -n100<CR>:bot copen<CR> <c-w>k :wi
 nnoremap <space>gr :Gread<CR>
 " Search git commit messages
 nnoremap <space>gg :Glog --grep=
-nnoremap <space>gb :Gblame<CR>
+nnoremap <space>gb :Git blame<CR>
 " How to use: open history, go to line and issue command. NOTE: make sure only one window is opened!
 nnoremap <space>gh ^yw :cclose<CR>:Gvdiff <C-R>0<CR>
 
