@@ -31,31 +31,37 @@ Bundle 'iamcco/markdown-preview.nvim'
 Bundle 'tpope/vim-dispatch'
 Bundle 'idanarye/vim-merginal'
 Bundle 'jeffkreeftmeijer/vim-numbertoggle' 
-"NOTE: call HardMode() to enable, EasyMode() to disable
-Bundle 'wikitopian/hardmode'            
 Bundle 'hari-rangarajan/CCTree'         
 " Smooth scrolling - definitely needed :D
 Bundle 'yuttie/comfortable-motion.vim'
-" NEEDED - for python
-Bundle 'davidhalter/jedi-vim'
-" Optional
-Bundle 'ajh17/VimCompletesMe'
 Bundle 'scrooloose/nerdtree' 
-Bundle 'a.vim'               
 Bundle 'jlanzarotta/bufexplorer'        
-Bundle 'vim-scripts/cscope_macros.vim'  
+" Optional
 Bundle 'milkypostman/vim-togglelist'
 Bundle 'lyuts/vim-rtags'
-"Bundle 'ctrlpvim/ctrlp.vim'
 Bundle 'junegunn/fzf'
 Bundle 'junegunn/fzf.vim'
 Bundle 'wookayin/fzf-ripgrep.vim'
-Bundle 'jesseleite/vim-agriculture'
-"Might be re-enabled later
 Bundle 'ervandew/supertab'
+Bundle 'm42e/trace32-practice.vim'
+Bundle 'junkblocker/patchreview-vim'
+Bundle 'chrisbra/Colorizer'
+Bundle 'powerman/vim-plugin-AnsiEsc'
+" Note: need to run lua command below for this to work!
+Bundle 'dhananjaylatkar/cscope_maps.nvim'
+
+
+" REMOVED
+"Bundle 'ajh17/VimCompletesMe' - REPO DELETED
+"NEEDED - for python? - Bundle 'davidhalter/jedi-vim'
+"Bundle 'ctrlpvim/ctrlp.vim'
 "Bundle 'will133/vim-dirdiff'
 "Bundle 'Valloric/YouCompleteMe'
-Bundle 'm42e/trace32-practice.vim'
+"Bundle 'vim-scripts/cscope_macros.vim'  - replaced with cscope_maps
+"Bundle 'a.vim' - not used
+"Bundle 'jesseleite/vim-agriculture' - AgRaw/RgRaw, not used much
+"NOTE: call HardMode() to enable, EasyMode() to disable
+"Bundle 'wikitopian/hardmode' - not used
 
 if has("win32") || has("win16")
 "WINDOWS only plugins
@@ -205,10 +211,13 @@ set undolevels=10000	" How many undos
 set hid					" Hidden buffers, to make sure we don't loose undo history
 
 " Display CSCOPE results in Quickfix window
-set cscopequickfix=s-,c-,d-,i-,t-,e-,g-
+"set cscopequickfix=s-,c-,d-,i-,t-,e-,g-
+
+" New cscsope maps plugin
+lua require('cscope_maps').setup()
 
 " Copy-paste from system clipboard
-map <C-S-c> "+y
+map <C-c> "+y
 
 "----------------
 "---KEY MAPPINGS 
@@ -220,7 +229,7 @@ map! <F2> <ESC>:w<CR>
 "F3 = DIFF FILE (NEW, WIP)
 "F4 - close all diffs
 map <F3> :diffthis<CR>
-map <F4> :diffoff!<CR>
+map <F4> :bufdo diffoff!<CR>
 
 "F4 OPEN! 
 "OLD USAGE: autocmd FileType c map <buffer> <F4> <C-\>g
@@ -233,8 +242,8 @@ map <F4> :diffoff!<CR>
 map <F6> :Copen<CR>
 
 "F7 - switch to .h (ALL MODES)
-map <F7> :A<CR>
-map! <F7> <ESC>:A<CR>
+"map <F7> :A<CR>
+"map! <F7> <ESC>:A<CR>
 
 "F8 = open quickfix window
 let g:toggle_list_no_mappings="true"
@@ -324,10 +333,8 @@ let g:rtagsRcCmd = "rtags-rc"
 " bind \ (backward slash) to grep shortcut
 nnoremap \ :Rg<SPACE>
 
-" bind K to grep word under cursor
-nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 " bind L to grep *word* under cursor 
-nnoremap L :grep! "<C-R><C-W>"<CR>:cw<CR>
+nnoremap L :Rg <C-R><C-W><CR>
 
 "+++ Merginal
 " Horizontal split of window - useful for long branch names
@@ -337,6 +344,11 @@ nnoremap <space>gm :Merginal<CR>
 
 "+++FZF
 nmap <C-P> :Files<CR>
+
+command! -bang -nargs=* RgPy
+  \ call fzf#vim#grep(
+  \   'rg --type py --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
 
 "+++ Comfortable-motion 
 " Use on mouse scrolling
@@ -349,9 +361,8 @@ nmap <C-P> :Files<CR>
 "+++ Fugitive
 nnoremap <space>gs :Git<CR>
 nnoremap <space>gd :Gvdiff<CR>
-nnoremap <space>gl :silent! Glog -n100<CR>:bot copen<CR>
-" Note: 0Glog opens the top version file. This attempts to keep the original buffer, so you can diff and put stuff in it
-nnoremap <space>gf :vsplit<CR> :silent! 0Glog -n100<CR>:bot copen<CR> <c-w>k :wincmd c<CR>
+nnoremap <space>gl :Git log<CR>
+nnoremap <space>gf :Git log -- %<CR>
 " This is basically a checkout (need to do a save)
 nnoremap <space>gr :Gread<CR>
 " Search git commit messages
